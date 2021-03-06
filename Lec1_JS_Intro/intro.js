@@ -1,6 +1,19 @@
-console.log('hello');
-function sayHi(){
-    console.log("HELLO");
+function getFirstName(fullName){
+    // fullName = "TONY STARK".split(" ") => [ "TONY" , "STARK"  ];
+    fullName = fullName.split(" ");
+    return fullName[0];
 }
-sayHi();
 
+function getLastName(fullName){
+    fullName = fullName.split(" ");
+    return fullName[1];
+}
+
+function sayHi( fullName  , fun  ){
+    let name = fun(fullName);
+    console.log(name);
+}
+
+
+sayHi("TONY STARK" , getFirstName);
+sayHi("BRUCE BANNER" ,  getLastName);
