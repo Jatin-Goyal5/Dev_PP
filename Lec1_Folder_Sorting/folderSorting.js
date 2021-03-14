@@ -51,4 +51,4 @@ function sortFolder(folderPath){
 
 }
 
-sortFolder(folderPath);
+sortFolder(folderPath); 
