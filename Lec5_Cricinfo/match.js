@@ -43,7 +43,7 @@ function cb(request, response,body){
 function updateBatsmanFile(batsmanPath,runs ,balls,fours,sixes,strikeRate){
     let stringifiedData = fs.readFileSync(batsmanPath);
     let batsmanArray = JSON.parse(stringifiedData);
-    console.log(batsmanArray);
+    // console.log(batsmanArray);
     let cInning = {
         runs,
         balls,
@@ -70,18 +70,7 @@ function createBatsmanFile(batsmanPath,runs ,balls,fours,sixes,strikeRate){
     batsmanArray.push(cInning);
     let stringifiedData = JSON.stringify(batsmanArray); 
     fs.writeFileSync(batsmanPath , stringifiedData  );
-    
-    // let batsmanFile = [];
-    // let inning = {
-    //     Runs : runs , 
-    //     Balls : balls , 
-    //     Fours : fours , 
-    //     Sixes : sixes , 
-    //     StrikeRate : strikeRate
-    // }
-    // batsmanFile.push(inning);
-    // let stringifiedData = JSON.stringify(batsmanFile); 
-    // fs.writeFileSync(batsmanPath , stringifiedData  );
+
 }
 
 function addingData(teamName, batsmanName , runs ,balls,fours,sixes,strikeRate){

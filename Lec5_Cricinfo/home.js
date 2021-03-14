@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const request = require("request");
+const fs = require("fs");
 
 const getAllMatchesCard = require('./match-result')
 
@@ -12,6 +13,7 @@ function cb(req, response,body){
     let aTag = ch('a[data-hover="View All Results"]');
     let clink = "https://www.espncricinfo.com/"+aTag.attr("href");
     // console.log(clink);
+    fs.mkdirSync('./IPL');
     getAllMatchesCard(clink);    
 }
 
