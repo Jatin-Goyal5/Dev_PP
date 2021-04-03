@@ -68,11 +68,22 @@ openBrowserPromises.then(function(browser){
     let allQuesCompleteLink = allQuesPromise.map(function(data){
         return "https://www.hackerrank.com"+data;
     });
+
     let firstQuesPromise = solveQues(allQuesCompleteLink[0]);
+
+    for(let i =1 ; i < allQuesCompleteLink.length ; ++i){
+        firstQuesPromise = firstQuesPromise.then(function(data){
+            // console.log(data+'');
+            let newQuesPromise = solveQues(allQuesCompleteLink[i]);
+            return newQuesPromise;
+
+        })
+    }
+
     return firstQuesPromise;
 
 }).then(function(){
-    console.log("warmup challenge opened")
+    console.log("all question solved ")
 }).catch(function(e){
     console.log("unable to open reason "+e );
 });
