@@ -1,6 +1,6 @@
 let todoinput = document.querySelector('.todo-input');
 let todobutton = document.querySelector('.add-todo');
-let todolist = document.querySelector('.todo-list');
+let todolist = document.querySelector('.todos-list');
 
 
 todobutton.addEventListener("click", function(data){
@@ -31,8 +31,8 @@ function addTodo(){
 
         // create deleteButtton
         let deleteButtton = document.createElement('button');
-        deleteButtton.classList.add('Delete-todo');
-        deleteButtton.innerHTML = 'DELETE TASK';
+        deleteButtton.classList.add('delete-task');
+        deleteButtton.innerHTML = 'DELETE';
         
         deleteButtton.addEventListener('click', function(event){
           event.target.parentNode.remove();  
@@ -43,7 +43,7 @@ function addTodo(){
         listitem.append(deleteButtton)
         todolist.append(listitem);
 
-        todoinput.value =" ";
+        todoinput.value ="";
 
     }
 }
