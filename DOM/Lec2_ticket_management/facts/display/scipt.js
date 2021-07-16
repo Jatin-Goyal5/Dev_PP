@@ -9,19 +9,31 @@ let filterCodes = {
     "black":"#34495e"
 }
 
-let selectedFilter = 'black';
+function loadTickets(){
+  if(localStorage.getItem("allTickets")){
+    let allTickets = JSON.parse(localStorage.getItem("allTickets"));
+    ticketContainer.innerHTML ="";
+    for(let i=0 ; i<allTickets.length ; i++){
+      let {ticketId , ticketFilter , ticketContent} = allTickets[i];
+      let ticketItem = document.createElement('div');
+      ticketItem.classList.add('ticket-item');
+      ticketItem.innerHTML =`<div class="ticket-item-priority ${ticketFilter}"></div>
+                            <div class="ticket-id">${ticketId}</div>
+                            <div class="ticket-content">${ticketContent}</div>`;
+      ticketContainer.append(ticketItem);
+    }
+  }
+}
+loadTickets();
 
-// [ <div></div> ,<div></div> ,<div></div> ,<div></div>  ];
+
+let selectedFilter = 'black';
 
 for (let i = 0; i < allFilters.length; i++) {
   allFilters[i].addEventListener("click", chooseFilter);
 }
 
-function chooseFilter(e) {
-  let filter = e.target.classList[1];
-  let filterCode = filterCodes[filter];
-  ticketContainer.style.background = filterCode;
-}
+
 
 
 // addig detail in ticket action 
@@ -49,7 +61,6 @@ function handelModal(){
   }
 
   ticketContainer.append(modalDiv);
-  selectedFilter ='black'
 }
 
 
@@ -102,21 +113,88 @@ function addModal(){
 
 }
 
-//          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------------------------------>>>>>>>>>>>>>
+//          <<<<<<<<<<<<<<<------------------------------------------------------------------>>>>>>>>>>>>>
+
+
+
 
 // adding ticket in tickets container 
 
 function addingTicket(e){
   if(e.key == 'Enter'){
     let ticketContent = e.target.textContent;
-  let ticketItem = document.createElement('div');
-  ticketItem.classList.add('ticket-item');
-  ticketItem.innerHTML =`<div class="ticket-item-priority ${selectedFilter}"></div>
-                        <div class="ticket-id">#exampleId</div>
-                        <div class="ticket-content">${ticketContent}</div>`;
-  ticketContainer.append(ticketItem);
-  e.target.parentNode.remove();
+    let ticketId = uid();
+    let ticketItem = document.createElement('div');
+    ticketItem.classList.add('ticket-item');
+    ticketItem.innerHTML =`<div class="ticket-item-priority ${selectedFilter}"></div>
+                          <div class="ticket-id">${ticketId}</div>
+                          <div class="ticket-content">${ticketContent}</div>`;
+    ticketContainer.append(ticketItem);
+    e.target.parentNode.remove();
+    if(!localStorage.getItem('allTickets')){
+      let allTickets =[];
+      let ticketObject ={};
+      ticketObject.ticketId =ticketId;
+      ticketObject.ticketFilter = selectedFilter;
+      ticketObject.ticketContent = ticketContent;
+      allTickets.push(ticketObject);
+      localStorage.setItem('allTickets', JSON.stringify(allTickets));
+    }else{
+      let allTickets = JSON.parse(localStorage.getItem("allTickets"));
+      let ticketObject = {};
+      ticketObject.ticketId = ticketId;
+      ticketObject.ticketFilter = selectedFilter;
+      ticketObject.ticketContent = ticketContent;
+      allTickets.push(ticketObject);
+
+      localStorage.setItem("allTickets" , JSON.stringify(allTickets));
+
+    }
+    selectedFilter ='black';
+
   }
-  
 }
 
+function chooseFilter(e) {
+  if(e.target.classList.contains("active-filter")){
+    // if active filter already present !!
+    e.target.classList.remove("active-filter");
+    loadTickets();
+    return;
+  }
+
+  // remove active filter from already selected filter
+  if(document.querySelector(".filter.active-filter")){
+    document.querySelector(".filter.active-filter").classList.remove("active-filter");
+  }
+  // add active filter on now selected filter !!
+  e.target.classList.add("active-filter");
+  let ticketFilter = e.target.classList[1];
+  loadSelectedTickets(ticketFilter);
+}
+
+function loadSelectedTickets(ticketFilter){
+  if(localStorage.getItem("allTickets")){
+    let allTickets = JSON.parse(localStorage.getItem("allTickets"));
+    
+    let filteredTickets = allTickets.filter( function(filterObject){
+      return filterObject.ticketFilter == ticketFilter;
+    });
+
+    // console.log(filteredTickets);
+
+    // empty tickets container
+    ticketContainer.innerHTML = "";
+    for(let i=0 ; i<filteredTickets.length ; i++){
+      let {ticketId , ticketFilter , ticketContent} = filteredTickets[i];
+      let ticketItem = document.createElement('div');
+      ticketItem.classList.add('ticket-item');
+      ticketItem.innerHTML =`<div class="ticket-item-priority ${ticketFilter}"></div>
+                            <div class="ticket-id">${ticketId}</div>
+                            <div class="ticket-content">${ticketContent}</div>`;
+      ticketContainer.append(ticketItem);
+      
+    }
+
+  }
+}
