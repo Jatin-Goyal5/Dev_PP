@@ -9,7 +9,11 @@ let firebaseConfig = {
     appId: "1:936059820725:web:cbf4006c586d79fb35fcfc",
     measurementId: "G-BEJN19JZD2"
   };
-let firebaseinitialise= firebase.initializeApp(firebaseConfig);
-let firebaseAuth = firebaseinitialise.auth();
+let firebaseApp= firebase.initializeApp(firebaseConfig);
+export let firebaseAuth = firebaseApp.auth();
+export let firebaseStorage = firebaseApp.storage();
+export let firebaseDB = firebaseApp.firestore();
+export let timeStamp = firebase.firestore.FieldValue.serverTimestamp;
 
-export default firebaseAuth;
+
+// export default firebaseAuth;
