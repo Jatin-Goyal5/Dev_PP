@@ -14,9 +14,9 @@ function App (){
       <div className="app">
       <Header></Header>
       <Switch>
-     
+      <Route path ="/signup" component = {Signup} exact></Route>
         <Route  path="/login" component = {Login} exact></Route>
-        <Route path ="/signup" component = {Signup} exact></Route>
+        
         <PrivateRoute path ="/" comp = {Feed}></PrivateRoute>
         <PrivateRoute path ="/profile" comp = {Profile} exact></PrivateRoute>        
       </Switch>
